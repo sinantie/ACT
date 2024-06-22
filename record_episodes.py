@@ -43,9 +43,9 @@ if __name__ == "__main__":
     if not cam.isOpened():
         raise IOError("Cannot open camera")
     # init follower
-    follower = Robot(device_name=ROBOT_PORTS['follower'])
+    follower = Robot(device_name=ROBOT_PORTS['follower'], servo_ids=[1, 2, 3, 4, 5, 6])
     # init leader
-    leader = Robot(device_name=ROBOT_PORTS['leader'])
+    leader = Robot(device_name=ROBOT_PORTS['leader'], servo_ids=[7, 8, 9, 10, 11, 12])
     leader.set_trigger_torque()
 
     
