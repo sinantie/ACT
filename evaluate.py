@@ -48,8 +48,9 @@ if __name__ == "__main__":
     # init follower
     follower = Robot(device_name=ROBOT_PORTS['follower'])
 
-    # load the policy
-    ckpt_path = os.path.join(train_cfg['checkpoint_dir'], train_cfg['eval_ckpt_name'])
+    # load the policy    
+    ckpt_path = os.path.join(train_cfg['checkpoint_dir'], task, train_cfg['eval_ckpt_name'])
+    policy_config['episode_len'] = cfg['episode_len']
     policy = make_policy(policy_config['policy_class'], policy_config)
     loading_status = policy.load_state_dict(torch.load(ckpt_path, map_location=torch.device(device)))
     print(loading_status)
@@ -57,7 +58,7 @@ if __name__ == "__main__":
     policy.eval()
 
     print(f'Loaded: {ckpt_path}')
-    stats_path = os.path.join(train_cfg['checkpoint_dir'], f'dataset_stats.pkl')
+    stats_path = os.path.join(train_cfg['checkpoint_dir'], task, f'dataset_stats.pkl')
     with open(stats_path, 'rb') as f:
         stats = pickle.load(f)
 
@@ -69,20 +70,21 @@ if __name__ == "__main__":
         query_frequency = 1
         num_queries = policy_config['num_queries']
 
-    # bring the follower to the leader
-    for i in range(90):
-        follower.read_position()
-        _ = capture_image(cam)
-    
-    obs = {
-        'qpos': pwm2pos(follower.read_position()),
-        'qvel': vel2pwm(follower.read_velocity()),
-        'images': {cn: capture_image(cam) for cn in cfg['camera_names']}
-    }
-    os.system('say "start"')
-
-    n_rollouts = 1
+    n_rollouts = 3
     for i in range(n_rollouts):
+    
+        # bring the follower to the leader
+        for i in range(10):
+            follower.read_position()
+            _ = capture_image(cam)
+        
+        obs = {
+            'qpos': pwm2pos(follower.read_position()),
+            'qvel': vel2pwm(follower.read_velocity()),
+            'images': {cn: capture_image(cam) for cn in cfg['camera_names']}
+        }
+        os.system('say "start"')
+
         ### evaluation loop
         if policy_config['temporal_agg']:
             all_time_actions = torch.zeros([cfg['episode_len'], cfg['episode_len']+num_queries, cfg['state_dim']]).to(device)
