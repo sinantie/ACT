@@ -22,9 +22,9 @@ cfg = TASK_CONFIG
 
 def capture_image(cam):
     # Capture a single frame
-    _, image = cam.read()
+    _, frame = cam.read()
     # Generate a unique filename with the current date and time
-    # image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     # Define your crop coordinates (top left corner and bottom right corner)
     x1, y1 = 400, 0  # Example starting coordinates (top left of the crop rectangle)
     x2, y2 = 1600, 900  # Example ending coordinates (bottom right of the crop rectangle)
