@@ -21,7 +21,7 @@ class ACTPolicy(nn.Module):
                                          std=[0.229, 0.224, 0.225])
         image = normalize(image)
         if actions is not None: # training time
-            actions = actions[:, :self.model.num_queries]
+            actions = actions[:, :self.model.num_queries]   # I think this is wrong... it should be episode_length
             is_pad = is_pad[:, :self.model.num_queries]
 
             a_hat, is_pad_hat, (mu, logvar) = self.model(qpos, image, env_state, actions, is_pad)

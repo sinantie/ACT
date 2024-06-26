@@ -12,7 +12,7 @@ class MotorControlType(Enum):
     UNKNOWN = auto()
 
 class Robot:
-    def __init__(self, device_name: str, baudrate=1_000_000, servo_ids=[1, 2, 3, 4, 5]) -> None:
+    def __init__(self, device_name: str, baudrate=1_000_000, servo_ids=[1, 2, 3, 4, 5, 6]) -> None:
         self.servo_ids = servo_ids
         self.dynamixel = Dynamixel.Config(baudrate=baudrate, device_name=device_name).instantiate()
         self._init_motors()
@@ -130,7 +130,7 @@ class Robot:
         @return:
         """
         if isinstance(limit, int):
-            limits = [limit, ] * 5
+            limits = [limit, ] * len(self.servo_ids)
         else:
             limits = limit
         self._disable_torque()

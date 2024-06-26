@@ -10,7 +10,7 @@ from training.utils import *
 
 # parse the task name via command line
 parser = argparse.ArgumentParser()
-parser.add_argument('--task', type=str, default='task1')
+parser.add_argument('--task', type=str, default='pick_place_cylinder_box')
 args = parser.parse_args()
 task = args.task
 
@@ -48,6 +48,7 @@ def plot_history(train_history, validation_history, num_epochs, ckpt_dir, seed):
 
 def train_bc(train_dataloader, val_dataloader, policy_config):
     # load policy
+    policy_config['episode_len'] = task_cfg['episode_len']
     policy = make_policy(policy_config['policy_class'], policy_config)
     policy.to(device)
 

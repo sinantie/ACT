@@ -22,9 +22,9 @@ cfg = TASK_CONFIG
 
 def capture_image(cam):
     # Capture a single frame
-    _, frame = cam.read()
+    _, image = cam.read()
     # Generate a unique filename with the current date and time
-    image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    # image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     # Define your crop coordinates (top left corner and bottom right corner)
     x1, y1 = 400, 0  # Example starting coordinates (top left of the crop rectangle)
     x2, y2 = 1600, 900  # Example ending coordinates (bottom right of the crop rectangle)
@@ -51,7 +51,7 @@ if __name__ == "__main__":
     
     for i in range(num_episodes):
         # bring the follower to the leader and start camera
-        for i in range(200):
+        for i in range(100):
             follower.set_goal_pos(leader.read_position())
             _ = capture_image(cam)
         os.system('say "go"')

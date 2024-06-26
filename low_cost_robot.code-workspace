@@ -1,10 +1,12 @@
 {
 	"folders": [
 		{
-			"path": "../low_cost_robot"
+			"name": "ACT",
+			"path": "."
 		},
 		{
-			"path": "."
+			"name": "low_cost_robot",
+			"path": "../low_cost_robot"
 		}
 	],
 	"settings": {}
